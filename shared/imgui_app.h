@@ -20,6 +20,7 @@
 //#define IMGUI_APP_WIN32_DX11
 //#endif
 
+
 #include "imgui.h"  // for ImVec4 only
 
 struct ImGuiApp
@@ -79,6 +80,13 @@ ImGuiApp* ImGuiApp_ImplGlfwGL3_Create();
 #endif
 #endif
 
+#ifdef IMGUI_APP_GLFW_METAL
+ImGuiApp* ImGuiApp_ImplGlfwMetal_Create();
+#ifndef ImGuiApp_ImplDefault_Create
+#define ImGuiApp_ImplDefault_Create ImGuiApp_ImplGlfwMetal_Create
+#endif
+#endif
+
 // Dummy/Null Backend (last one in list so its only the default when there are no other backends compiled in)
 ImGuiApp* ImGuiApp_ImplNull_Create();
 #ifndef ImGuiApp_ImplDefault_Create
@@ -111,6 +119,11 @@ ImGuiApp* ImGuiApp_ImplNull_Create();
 
 #if defined(IMGUI_APP_GLFW_GL3)
 #include "imgui_impl_glfw.cpp"
+#endif
+
+#if defined(IMGUI_APP_GLFW_METAL)
+#include "imgui_impl_glfw.cpp"
+#include "imgui_impl_metal.mm"
 #endif
 
 #endif
